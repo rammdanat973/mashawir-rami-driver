@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مشاوير خاصة رامي</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f2f4f7;font-family:Arial,sans-serif;color:#202b36}
+header{background:#087b55;color:white;padding:25px 18px;border-radius:0 0 22px 22px}
+h1{font-size:25px;margin:5px 0}
+main{padding:18px}
+.card{background:white;padding:18px;border-radius:16px;margin-bottom:15px;box-shadow:0 2px 9px #0000000c}
+button{border:0;border-radius:10px;padding:14px;font-size:16px;font-weight:bold;cursor:pointer}
+.online{background:#078653;color:white;width:100%}
+.offline{background:#777;color:white;width:100%}
+.accept{background:#087b55;color:white;width:100%;margin-top:10px}
+.reject{background:#eee;color:#333;width:100%;margin-top:8px}
+.info{color:#687581;font-size:14px}
+.big{font-size:25px;font-weight:bold}
+#map{background:#e0e9e5;height:160px;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center}
+</style>
+</head>
+<body>
+<header>
+<div>🚕 تطبيق السائق</div>
+<h1>مشاوير خاصة رامي</h1>
+<div>أهلاً بك يا كابتن</div>
+</header>
+<main>
+<div class="card">
+<h3>حالة السائق</h3>
+<p id="status">🔴 غير متصل</p>
+<button class="online" id="toggle" onclick="toggleStatus()">بدء استقبال الرحلات</button>
+</div>
+
+<div class="card">
+<h3>📍 موقعي الحالي</h3>
+<div id="map">اضغط لتحديد موقعك عبر GPS</div>
+<button class="accept" onclick="getLocation()">تحديد موقعي</button>
+<p id="location" class="info">لم يتم تحديد الموقع بعد</p>
+</div>
+
+<div class="card">
+<h3>🚖 طلب رحلة تجريبي</h3>
+<p class="info">هذا طلب تجريبي لا يمثل زبوناً حقيقياً</p>
+<p>📍 نقطة الانطلاق: موقع تجريبي</p>
+<p>🏁 الوجهة: موقع تجريبي</p>
+<p>💰 الأجرة: <span class="big">5.00 د.أ</span></p>
+<button class="accept" onclick="acceptTrip()">قبول الرحلة</button>
+<button class="reject" onclick="rejectTrip()">رفض الرحلة</button>
+<p id="result"></p>
+</div>
+
+<div class="card">
+<h3>💵 أرباح الرحلات</h3>
+<p class="big" id="earnings">0.00 د.أ</p>
+<p class="info">إجمالي الأرباح التجريبية</p>
+</div>
+</main>
+<script>
+let isOnline=false;
+let earnings=0;
+function toggleStatus(){
+isOnline=!isOnline;
+document.getElementById("status").innerText=isOnline?"🟢 متصل ومستعد":"🔴 غير متصل";
+document.getElementById("toggle").innerText=isOnline?"إيقاف استقبال الرحلات":"بدء استقبال الرحلات";
+document.getElementById("toggle").className=isOnline?"offline":"online";
+}
+function getLocation(){
+if(!navigator.geolocation){
+alert("المتصفح لا يدعم تحديد الموقع");
+return;
+}
+navigator.geolocation.getCurrentPosition(p=>{
+let lat=p.coords.latitude;
+let lon=p.coords.longitude;
+document.getElementById("location").innerText="خط العرض: "+lat.toFixed(5)+" | خط الطول: "+lon.toFixed(5);
+document.getElementById("map").innerHTML='<a target="_blank" href="https://www.google.com/maps?q='+lat+','+lon+'">📍 افتح موقعي على خرائط Google</a>';
+},()=>alert("تعذر تحديد الموقع. تأكد من تشغيل GPS والسماح للموقع."));
+}
+function acceptTrip(){
+if(!isOnline){alert("يجب تشغيل استقبال الرحلات أولاً");return;}
+document.getElementById("result").innerText="تم قبول الطلب التجريبي بنجاح";
+earnings+=5;
+document.getElementById("earnings").innerText=earnings.toFixed(2)+" د.أ";
+}
+function rejectTrip(){
+document.getElementById("result").innerText="تم رفض الطلب التجريبي";
+}
+</script>
+</body>
+</html>
