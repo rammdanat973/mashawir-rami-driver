@@ -1,0 +1,14 @@
+
+{
+  "name": "مشاوير خاصة رامي",
+  "short_name": "مشاوير رامي",
+  "description": "تطبيق خاص بالسائقين لإدارة الرحلات",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2f4f7",
+  "theme_color": "#087b55"
+}
